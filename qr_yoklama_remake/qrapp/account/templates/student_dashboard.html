@@ -163,6 +163,13 @@
         let scanning = false;
 
         startCamera.addEventListener('click', async () => {
+            const stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                facingMode: "environment", // Arka kamerayı kullan
+                width: { ideal: 1280 },   // Video boyutlarını optimize et
+                height: { ideal: 720 }
+            }
+        });
     const qrResult = document.getElementById('qr-result'); // QR sonucunu gizle
     qrResult.style.display = 'none';
 
