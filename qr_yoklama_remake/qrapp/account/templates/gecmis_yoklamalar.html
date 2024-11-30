@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="d-block d-md-none">
+    <button class="btn btn-primary m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+        Menü
+    </button>
+</div>
+
+<!-- Sidebar (Mobil: Offcanvas, Desktop: Sabit) -->
+<div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasSidebarLabel">LESSQR</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body sidebar">
+        <p class="text-center">Hoşgeldiniz! <strong>{{ request.user.first_name }}</strong></p>
+        <hr>
+        <nav class="nav flex-column">
+            <a href="{% url 'student_dashboard' %}" class="nav-link">Yoklama Al</a>
+            <a href="{% url 'gecmis_yoklamalar' %}" class="nav-link">Geçmiş Yoklamalarım</a>
+            <a href="{% url 'devamsizlik_durumu' %}" class="nav-link">Devamsızlık Durumum</a>
+            <a href="#" class="nav-link">Hesap Ayarları</a>
+            <a href="/account/logout/" class="nav-link text-danger">Çıkış Yap</a> <!-- Çıkış Yap -->
+        </nav>
+    </div>
+</div>
+
+<!-- Sidebar (Desktop İçin) -->
+<div class="sidebar d-none d-md-block">
+    <h2 class="text-center">LESSQR</h2>
+    <p class="text-center">Hoşgeldiniz! <strong>{{ request.user.first_name }}</strong></p>
+    <hr>
+    <nav class="nav flex-column">
+        <a href="{% url 'student_dashboard' %}" class="nav-link">Yoklama Al</a>
+        <a href="{% url 'gecmis_yoklamalar' %}" class="nav-link">Geçmiş Yoklamalarım</a>
+        <a href="{% url 'devamsizlik_durumu' %}" class="nav-link">Devamsızlık Durumum</a>
+        <a href="#" class="nav-link">Hesap Ayarları</a>
+        <a href="/account/logout/" class="nav-link text-danger">Çıkış Yap</a> <!-- Çıkış Yap -->
+    </nav>
+</div>
+
+<div class="container mt-5">
+    <h3>Geçmiş Yoklamalarım</h3>
+    <ul class="list-group">
+        {% for yoklama in page_obj.object_list %}
+        <li class="list-group-item">
+            <strong>Ders Adı:</strong> {{ yoklama.qr_content }} <br>
+            <strong>Okul Numarası:</strong> {{ yoklama.school_number }} <br>
+            <strong>Tarih:</strong> {{ yoklama.date_time|date:"d/m/Y H:i" }}
+        </li>
+        {% empty %}
+        <li class="list-group-item">Hiç yoklama kaydı bulunamadı.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Sayfalama -->
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">İlk</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Önceki</a>
+            </li>
+            {% endif %}
+
+            <li class="page-item disabled">
+                <a class="page-link">Sayfa {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</a>
+            </li>
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Sonraki</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Son</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+{% endblock %}

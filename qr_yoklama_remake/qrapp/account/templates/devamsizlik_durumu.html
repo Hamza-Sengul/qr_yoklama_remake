@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="d-block d-md-none">
+    <button class="btn btn-primary m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+        Menü
+    </button>
+</div>
+
+<!-- Sidebar (Mobil: Offcanvas, Desktop: Sabit) -->
+<div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasSidebarLabel">LESSQR</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body sidebar">
+        <p class="text-center">Hoşgeldiniz! <strong>{{ request.user.first_name }}</strong></p>
+        <hr>
+        <nav class="nav flex-column">
+            <a href="{% url 'student_dashboard' %}" class="nav-link">Yoklama Al</a>
+            <a href="{% url 'gecmis_yoklamalar' %}" class="nav-link">Geçmiş Yoklamalarım</a>
+            <a href="{% url 'devamsizlik_durumu' %}" class="nav-link">Devamsızlık Durumum</a>
+            <a href="#" class="nav-link">Hesap Ayarları</a>
+            <a href="/account/logout/" class="nav-link text-danger">Çıkış Yap</a> <!-- Çıkış Yap -->
+        </nav>
+    </div>
+</div>
+
+<!-- Sidebar (Desktop İçin) -->
+<div class="sidebar d-none d-md-block">
+    <h2 class="text-center">LESSQR</h2>
+    <p class="text-center">Hoşgeldiniz! <strong>{{ request.user.first_name }}</strong></p>
+    <hr>
+    <nav class="nav flex-column">
+        <a href="{% url 'student_dashboard' %}" class="nav-link">Yoklama Al</a>
+        <a href="{% url 'gecmis_yoklamalar' %}" class="nav-link">Geçmiş Yoklamalarım</a>
+        <a href="{% url 'devamsizlik_durumu' %}" class="nav-link">Devamsızlık Durumum</a>
+        <a href="#" class="nav-link">Hesap Ayarları</a>
+        <a href="/account/logout/" class="nav-link text-danger">Çıkış Yap</a> <!-- Çıkış Yap -->
+    </nav>
+</div>
+
+<div class="container mt-5">
+    <h3>Devamsızlık Durumum</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Ders Adı</th>
+                <th>Toplam Hafta</th>
+                <th>Devamsızlık Sayısı</th>
+                <th>Devamsızlık Hakkı</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in attendance %}
+            <tr>
+                <td>{{ record.course_name }}</td>
+                <td>{{ record.total_weeks }}</td>
+                <td>{{ record.absences }}</td>
+                <td>{{ record.max_absences }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Devamsızlık durumu bulunamadı.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}
