@@ -177,32 +177,38 @@
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d', { willReadFrequently: true });
 
-            function scanQRCode() {
-                if (!scanning) return;
+           function scanQRCode() {
+    if (!scanning) return;
 
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
 
-                if (canvas.width === 0 || canvas.height === 0) {
-                    requestAnimationFrame(scanQRCode);
-                    return;
-                }
+    if (canvas.width === 0 || canvas.height === 0) {
+        requestAnimationFrame(scanQRCode);
+        return;
+    }
 
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
 
-                if (qrCode) {
-                    console.log("QR Kod Algılandı:", qrCode.data);
-                    qrBox.value = qrCode.data;
-                    scanning = false;
-                    video.srcObject.getTracks().forEach(track => track.stop());
-                    video.style.display = 'none';
-                    sendQRCodeData(qrCode.data); // Backend'e veriyi gönder
-                } else {
-                    requestAnimationFrame(scanQRCode);
-                }
-            }
+    if (qrCode) {
+        console.log("QR Kod Algılandı:", qrCode.data);
+        qrBox.value = qrCode.data;
+        qrResult.style.display = 'block';
+
+        scanning = false;
+        // Kamera akışını durdur
+        const tracks = video.srcObject.getTracks();
+        tracks.forEach((track) => track.stop());
+        video.srcObject = null; // Video kaynağını temizle
+        video.style.display = 'none'; // Video elemanını gizle
+        sendQRCodeData(qrCode.data);
+    } else {
+        requestAnimationFrame(scanQRCode);
+    }
+}
+
 
             requestAnimationFrame(scanQRCode);
         });
