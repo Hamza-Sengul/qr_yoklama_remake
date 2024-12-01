@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="email" name="email" placeholder="E-posta" required>
+    <input type="password" name="password" placeholder="Şifre" required>
+    <button type="submit">Giriş Yap</button>
+</form>
+
+
+
+{% endblock %}

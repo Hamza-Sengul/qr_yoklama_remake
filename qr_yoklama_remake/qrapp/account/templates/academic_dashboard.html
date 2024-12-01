@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1 class="display-4 mb-4">Akademisyen Paneli</h1>
+            <p class="lead">Hoşgeldiniz, <strong>{{ academic_user.first_name }} {{ academic_user.last_name }} {{ academic_user.email }}</strong>!</p>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <!-- QR Kod Oluştur -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">QR Kod Oluştur</h5>
+                    <p class="card-text">Dersleriniz için yoklama QR kodu oluşturabilirsiniz.</p>
+                    <a href="{% url 'create_qr' %}" class="btn btn-primary">Oluştur</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Öğrenci Listesini Gör -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Öğrenci Listesi</h5>
+                    <p class="card-text">Dersinize kayıtlı öğrencileri görebilirsiniz.</p>
+                    <a href="{% url 'view_students' %}" class="btn btn-success">Görüntüle</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Ders Oluştur</h5>
+                    <a href="{% url 'create_course' %}" class="btn btn-primary mt-3">Ders Oluştur</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Öğrenci Ekle</h5>
+                    <a href="{% url 'add_student' %}" class="btn btn-success mt-3">Öğrenci Ekle</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- Çıkış Yap -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Çıkış Yap</h5>
+                    <p class="card-text">Sistemde oturumunuzu kapatabilirsiniz.</p>
+                    <a href="{% url 'academic_logout' %}" class="btn btn-danger">Çıkış</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

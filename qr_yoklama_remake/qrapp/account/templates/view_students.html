@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğrenci Listesi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1 class="display-5 mb-4">Derslere Göre Öğrenci Listesi</h1>
+            </div>
+        </div>
+
+        <!-- Akademisyenin Dersleri -->
+        {% for course in courses %}
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h3 class="text-primary">{{ course.name }}</h3>
+                <p class="text-muted">
+                    Toplam Hafta: {{ course.total_weeks }} | Devamsızlık Limiti: {{ course.absence_limit }}
+                </p>
+                <table class="table table-bordered table-striped table-hover">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th>Ad</th>
+                            <th>Soyad</th>
+                            <th>E-posta</th>
+                            <th>Devamsızlık Durumu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in course.students.all %}
+                        <tr>
+                            <td>{{ student.student.first_name }}</td>
+                            <td>{{ student.student.last_name }}</td>
+                            <td>{{ student.student.email }}</td>
+                            <td>
+                                <span class="badge {% if student.absences >= course.absence_limit %}bg-danger{% else %}bg-success{% endif %}">
+                                    {{ student.absences }}/{{ course.absence_limit }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center">Bu ders için kayıtlı öğrenci bulunmamaktadır.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% empty %}
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <p class="text-danger">Sistemde kayıtlı ders bulunamadı.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

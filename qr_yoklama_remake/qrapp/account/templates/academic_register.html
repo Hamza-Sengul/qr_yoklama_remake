@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="first_name" placeholder="İsim" required>
+    <input type="text" name="last_name" placeholder="Soyisim" required>
+    <input type="email" name="email" placeholder="E-posta" required>
+    <input type="password" name="password" placeholder="Şifre" required>
+    <input type="password" name="confirm_password" placeholder="Şifre Tekrarı" required>
+    <button type="submit">Kayıt Ol</button>
+</form>
+
+
+{% endblock %}

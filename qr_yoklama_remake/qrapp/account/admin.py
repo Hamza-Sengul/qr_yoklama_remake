@@ -1,7 +1,10 @@
 from django.contrib import admin
-from .models import QRData,Attendance
+from .models import QRData,Attendance, QRCode, Course, CourseStudent
 
 admin.site.register(Attendance)
+admin.site.register(QRCode)
+admin.site.register(Course)
+admin.site.register(CourseStudent)
 
 @admin.register(QRData)
 class QRDataAdmin(admin.ModelAdmin):
